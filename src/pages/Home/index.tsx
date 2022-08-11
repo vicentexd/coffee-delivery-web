@@ -1,6 +1,11 @@
 import { Coffee, Package, ShoppingCart, Timer } from "phosphor-react";
+import { useState } from "react";
+import { CoffeeCard } from "../../components/CoffeeCard";
+import { coffeeList } from "./coffeesList";
 
 export function Home() {
+  const [list, setList] = useState(coffeeList);
+
   return (
     <div className="flex flex-1 flex-col">
       <div className="flex w-screen h-banner  bg-contain  bg-center">
@@ -68,10 +73,14 @@ export function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col mx-40">
+      <div className="flex flex-col px-40 m-auto">
         <h2 className="text-titleL text-subtitle font-baloo2 ">Nossos cafés</h2>
 
-        <div>Listagem vai aqui </div>
+        <div className="grid grid-cols-4 gap-x-8 gap-y-10 mt-14 mb-36 w-full">
+          {coffeeList.map((item) => (
+            <CoffeeCard coffee={item} />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -21,6 +21,9 @@ module.exports = {
       yellowLight: "#F1E9C9",
     },
     extend: {
+      borderRadius: {
+        "4xl": "36px",
+      },
       width: {
         banner: "1004px",
       },
