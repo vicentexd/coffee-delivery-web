@@ -5,13 +5,13 @@ import { useCart } from "../../contexts/useCart";
 export function Header() {
   const { cartItems } = useCart();
 
-  console.log("cartItems", JSON.stringify(cartItems, null, 2));
-
   return (
     <div className="flex flex-row justify-between items-center h-28 px-40 py-8">
-      <div>
-        <img src="../../../src/assets/Logo.png" />
-      </div>
+      <Link to={"/"}>
+        <div>
+          <img src="../../../src/assets/Logo.png" />
+        </div>
+      </Link>
 
       <div className="flex gap-3">
         <button className="flex flex-row p-2 gap-1 bg-purpleLight rounded-md items-center h-10">

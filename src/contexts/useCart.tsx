@@ -1,11 +1,12 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useMemo, useState } from "react";
 import { Coffee } from "../components/CoffeeCard";
 
 interface CartContextProps {
-  addItemToCart: (item: Coffee) => void;
+  addItemToCart: (item: Coffee) => Coffee;
   removeItemFromCart: (itemId: number) => void;
   cartItems: Coffee[];
   cleanCart: () => void;
+  total: number;
 }
 
 interface CartProviderProps {
@@ -17,12 +18,12 @@ const CartContext = createContext({} as CartContextProps);
 function CartProvider({ children }: CartProviderProps) {
   const [cartItems, setCartItems] = useState<Coffee[]>([]);
 
-  const handleAddItemToCart = (item: Coffee) => {
+  const handleAddItemToCart = (item: Coffee): Coffee => {
     const indexExistItem = cartItems.findIndex((x) => x.id === item.id);
 
     if (indexExistItem < 0) {
       setCartItems((state) => [...state, item]);
-      return;
+      return item;
     }
 
     setCartItems((state) => {
@@ -30,6 +31,7 @@ function CartProvider({ children }: CartProviderProps) {
 
       return state;
     });
+    return { ...item, amount: cartItems[indexExistItem].amount };
   };
 
   const handleRemoveItemFromCart = (itemId: number) => {
@@ -40,6 +42,13 @@ function CartProvider({ children }: CartProviderProps) {
     setCartItems([]);
   };
 
+  const total = useMemo(
+    () => cartItems.reduce((acc, curr) => acc + curr.amount * curr.price, 0),
+    [cartItems]
+  );
+
+  console.log("total", JSON.stringify(total, null, 2));
+
   return (
     <CartContext.Provider
       value={{
@@ -47,6 +56,7 @@ function CartProvider({ children }: CartProviderProps) {
         addItemToCart: handleAddItemToCart,
         removeItemFromCart: handleRemoveItemFromCart,
         cleanCart: handleCleanCart,
+        total,
       }}
     >
       {children}

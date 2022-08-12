@@ -23,6 +23,7 @@ module.exports = {
     extend: {
       borderRadius: {
         "4xl": "36px",
+        "5xl": "44px",
       },
       width: {
         banner: "1004px",
